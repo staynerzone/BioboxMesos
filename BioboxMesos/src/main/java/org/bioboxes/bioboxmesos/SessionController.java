@@ -23,6 +23,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import org.bioboxes.bioboxmesos.beans.Assembler;
+import org.bioboxes.bioboxmesos.sheduler.BioboxesMesos;
 import org.primefaces.context.RequestContext;
 
 /**
@@ -145,6 +146,11 @@ public class SessionController implements Serializable {
         }
     }
     
+    public void startMesos() {
+        BioboxesMesos.startMesosMaster();
+        BioboxesMesos.startMesosSlave();
+        BioboxesMesos.startMesosNetwork("hello-world", 2);
+    }
     
     public void resetExecution() {
         readCompletely = false;
