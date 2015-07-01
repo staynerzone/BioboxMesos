@@ -1,3 +1,4 @@
 org/bioboxes/bioboxmesossheduler/sheduler/MesosScheduler$1.class
 org/bioboxes/bioboxmesossheduler/sheduler/MesosScheduler.class
 org/bioboxes/bioboxmesossheduler/BioboxMesos.class
+org/bioboxes/bioboxmesossheduler/tools/LibMesosFinder.class

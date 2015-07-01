@@ -17,13 +17,18 @@
 package org.bioboxes.bioboxmesossheduler;
 
 import com.google.protobuf.ByteString;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-
+import java.util.logging.Level;
 import org.apache.mesos.*;
 import org.apache.mesos.Protos.*;
 import org.bioboxes.bioboxmesossheduler.sheduler.MesosScheduler;
+import org.bioboxes.bioboxmesossheduler.tools.LibMesosFinder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -49,6 +54,9 @@ public class BioboxMesos {
      * Command-line entry point.
      * <br/>
      * Example usage: java ExampleFramework 127.0.0.1:5050 fedora/apache 2
+     *
+     * @param args
+     * @throws java.lang.Exception
      */
     public static void main(String[] args) throws Exception {
 
@@ -58,8 +66,22 @@ public class BioboxMesos {
     }
 
     public BioboxMesos(String[] args) {
-        System.load("/usr/local/lib/libmesos.so");
+        /**
+         * Need to find libmesos.so.
+         */
+        Path startingDir = Paths.get("/usr/");
+        String pattern = "libmesos.so";
+        LibMesosFinder finder = new LibMesosFinder(pattern);
+        try {
+            Files.walkFileTree(startingDir, finder);
+            System.load(finder.getResult());
+        } catch (IOException ex) {
+            System.load("/usr/local/lib/libmesos.so");
+        }
 
+        /**
+         * Get all images to process.
+         */
         final List<String> imageNames = new ArrayList<>();
         for (int i = 1; i < args.length; i++) {
             imageNames.add(args[i]);
@@ -75,7 +97,7 @@ public class BioboxMesos {
 
         Random r = new Random();
         FrameworkInfo mesosFramework = FrameworkInfo.newBuilder()
-                .setName("BioBox-Mesos-Framework_"+r.nextInt(10000))
+                .setName("BioBox-Mesos-Framework_" + r.nextInt(10000))
                 .setPrincipal("hannes")
                 .setUser("")// Have Mesos fill in the current user.
                 .setCheckpoint(true)
@@ -92,7 +114,7 @@ public class BioboxMesos {
         MesosSchedulerDriver driver = new MesosSchedulerDriver(scheduler, mesosFramework, args[0], credential);
 
         driver.run();
-        
+
     }
 
 }
