@@ -19,6 +19,7 @@ package org.bioboxes.bioboxmesossheduler;
 import com.google.protobuf.ByteString;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import org.apache.mesos.*;
 import org.apache.mesos.Protos.*;
@@ -59,8 +60,6 @@ public class BioboxMesos {
     public BioboxMesos(String[] args) {
         System.load("/usr/local/lib/libmesos.so");
 
-//        args = new String[]{"127.0.0.1:5050", "hello-world", "hello-world", "hello-world"};
-
         final List<String> imageNames = new ArrayList<>();
         for (int i = 1; i < args.length; i++) {
             imageNames.add(args[i]);
@@ -72,34 +71,27 @@ public class BioboxMesos {
         // terminate immediately when the framework is terminated. For production
         // deployments this probably isn't the desired behavior, so a timeout can be
         // specified here, allowing another instance of the framework to take over.
-        final int frameworkFailoverTimeout = 0;
+        final int frameworkFailoverTimeout = 25;
 
-        FrameworkInfo.Builder frameworkBuilder = FrameworkInfo.newBuilder()
-                .setName("BioBox-Mesos-Framework")
+        Random r = new Random();
+        FrameworkInfo mesosFramework = FrameworkInfo.newBuilder()
+                .setName("BioBox-Mesos-Framework_"+r.nextInt(10000))
                 .setPrincipal("hannes")
                 .setUser("")// Have Mesos fill in the current user.
-                .setFailoverTimeout(frameworkFailoverTimeout); // timeout in seconds
+                .setCheckpoint(true)
+                .setFailoverTimeout(frameworkFailoverTimeout)
+                .build(); // timeout in seconds
 
-        if (System.getenv("MESOS_CHECKPOINT") != null) {
-            System.out.println("Enabling checkpoint for the framework");
-            frameworkBuilder.setCheckpoint(true);
-        }
-
-        final Scheduler scheduler = new MesosScheduler(imageNames);
-
-        MesosSchedulerDriver driver;
-        System.out.println("Enabling authentication for the framework");
+        final Scheduler scheduler = new MesosScheduler(imageNames, mesosFramework);
 
         Credential credential = Credential.newBuilder()
                 .setPrincipal("hannes")
                 .setSecret(ByteString.copyFrom("jojo".getBytes()))
                 .build();
 
-        frameworkBuilder.setPrincipal("hannes");
+        MesosSchedulerDriver driver = new MesosSchedulerDriver(scheduler, mesosFramework, args[0], credential);
 
-        driver = new MesosSchedulerDriver(scheduler, frameworkBuilder.build(), args[0], credential);
-
-        int status = driver.run() == Status.DRIVER_STOPPED ? 0 : 1;
+        driver.run();
         
     }
 
