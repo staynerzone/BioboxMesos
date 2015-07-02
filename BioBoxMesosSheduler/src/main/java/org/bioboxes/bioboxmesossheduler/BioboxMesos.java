@@ -78,6 +78,14 @@ public class BioboxMesos {
         } catch (IOException ex) {
             System.load("/usr/local/lib/libmesos.so");
         }
+        
+        // If the framework stops running, mesos will terminate all of the tasks that
+        // were initiated by the framework but only once the fail-over timeout period
+        // has expired. Using a timeout of zero here means that the tasks will
+        // terminate immediately when the framework is terminated. For production
+        // deployments this probably isn't the desired behavior, so a timeout can be
+        // specified here, allowing another instance of the framework to take over.
+        int frameworkFailoverTimeout = 25;
 
         /**
          * Get all images to process.
@@ -85,15 +93,11 @@ public class BioboxMesos {
         final List<String> imageNames = new ArrayList<>();
         for (int i = 1; i < args.length; i++) {
             imageNames.add(args[i]);
+            if (args[i].contains("/")) {
+                frameworkFailoverTimeout = 250;
+            }
         }
 
-        // If the framework stops running, mesos will terminate all of the tasks that
-        // were initiated by the framework but only once the fail-over timeout period
-        // has expired. Using a timeout of zero here means that the tasks will
-        // terminate immediately when the framework is terminated. For production
-        // deployments this probably isn't the desired behavior, so a timeout can be
-        // specified here, allowing another instance of the framework to take over.
-        final int frameworkFailoverTimeout = 25;
 
         Random r = new Random();
         FrameworkInfo mesosFramework = FrameworkInfo.newBuilder()

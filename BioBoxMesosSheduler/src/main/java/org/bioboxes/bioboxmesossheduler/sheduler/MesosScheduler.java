@@ -30,7 +30,7 @@ import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 import org.apache.mesos.Protos.CommandInfo;
 import org.apache.mesos.Protos.ExecutorID;
-import org.apache.mesos.Protos.ExecutorInfo;
+import org.apache.mesos.Protos.Parameter;
 import org.apache.mesos.Protos.Volume;
 
 /**
@@ -124,9 +124,7 @@ public class MesosScheduler implements Scheduler {
                             .setType(Protos.Value.Type.SCALAR)
                             .setScalar(Protos.Value.Scalar.newBuilder().setValue(1024)))
                     .setContainer(containerInfoBuilder)
-                    .setCommand(CommandInfo.newBuilder().setShell(false).build())
-//                    .setExecutor(executor)
-                    //                    .setCommand(Protos.CommandInfo.newBuilder().setShell(false))
+                    .setCommand(CommandInfo.newBuilder().addArguments("default").setShell(false).build())
                     .buildPartial(); // partialBuild, because we'll add the slaveID later
             tasks.add(task);
         }
@@ -182,7 +180,10 @@ public class MesosScheduler implements Scheduler {
         logger.info("resourceOffers() with {} offers", offers.size());
         
         
-        
+        /**
+         * ADding rule to devide resources.
+         * Maybe ( numberOfOffers / #containers ) = amount per offer
+         */
         for (final Protos.Offer offer : offers) {
             List<Protos.OfferID> offerIDs = new ArrayList<>();
             offerIDs.add(offer.getId());
