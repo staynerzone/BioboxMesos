@@ -1,0 +1,181 @@
+I0707 14:29:47.299569  2112 main.cpp:156] Build: 2015-07-06 18:27:13 by jsteiner
+I0707 14:29:47.299780  2112 main.cpp:158] Version: 0.22.1
+I0707 14:29:47.300276  2112 containerizer.cpp:110] Using isolation: posix/cpu,posix/mem
+I0707 14:29:47.419244  2112 main.cpp:200] Starting Mesos slave
+I0707 14:29:47.424090  2120 slave.cpp:174] Slave started on 1)@127.0.1.1:5051
+I0707 14:29:47.424253  2120 credentials.hpp:85] Loading credential for authentication from '/home/jsteiner/mesosCredentials.cred'
+W0707 14:29:47.424423  2120 credentials.hpp:100] Permissions on credential file '/home/jsteiner/mesosCredentials.cred' are too open. It is recommended that your credential file is NOT accessible by others.
+I0707 14:29:47.424582  2120 slave.cpp:304] Slave using credential for: hannes
+I0707 14:29:47.425597  2120 slave.cpp:322] Slave resources: cpus(*):2; mem(*):2048; disk(*):83928; ports(*):[31000-32000]
+I0707 14:29:47.425861  2120 slave.cpp:351] Slave hostname: AWM14X
+I0707 14:29:47.425915  2120 slave.cpp:352] Slave checkpoint: true
+I0707 14:29:47.448868  2119 state.cpp:35] Recovering state from '/tmp/mesos/meta'
+I0707 14:29:47.450450  2118 status_update_manager.cpp:197] Recovering status update manager
+I0707 14:29:47.451338  2120 containerizer.cpp:307] Recovering containerizer
+I0707 14:29:47.451390  2116 docker.cpp:423] Recovering Docker containers
+I0707 14:29:47.800714  2113 slave.cpp:3808] Finished recovery
+I0707 14:29:47.801846  2113 slave.cpp:647] New master detected at master@127.0.0.1:5050
+I0707 14:29:47.803033  2115 status_update_manager.cpp:171] Pausing sending status updates
+I0707 14:29:47.803488  2113 slave.cpp:710] Authenticating with master master@127.0.0.1:5050
+I0707 14:29:47.803519  2113 slave.cpp:715] Using default CRAM-MD5 authenticatee
+I0707 14:29:47.804848  2113 slave.cpp:683] Detecting new master
+I0707 14:29:47.805007  2113 authenticatee.hpp:115] Initializing client SASL
+I0707 14:29:47.840133  2113 authenticatee.hpp:139] Creating new client SASL connection
+I0707 14:29:47.883783  2117 authenticatee.hpp:230] Received SASL authentication mechanisms: CRAM-MD5
+I0707 14:29:47.888562  2117 authenticatee.hpp:256] Attempting to authenticate with mechanism 'CRAM-MD5'
+I0707 14:29:47.890954  2118 authenticatee.hpp:276] Received SASL authentication step
+I0707 14:29:47.893165  2118 authenticatee.hpp:316] Authentication success
+I0707 14:29:47.894263  2115 slave.cpp:781] Successfully authenticated with master master@127.0.0.1:5050
+I0707 14:29:47.929764  2120 slave.cpp:815] Registered with master master@127.0.0.1:5050; given slave ID 20150707-142913-16777343-5050-1796-S0
+I0707 14:29:47.931042  2120 status_update_manager.cpp:178] Resuming sending status updates
+I0707 14:30:47.427283  2113 slave.cpp:3648] Current disk usage 9.46%. Max allowed age: 5.637640302312083days
+I0707 14:31:47.428585  2118 slave.cpp:3648] Current disk usage 9.46%. Max allowed age: 5.637640302312083days
+I0707 14:32:47.429638  2120 slave.cpp:3648] Current disk usage 9.46%. Max allowed age: 5.637636617505197days
+I0707 14:33:47.431205  2117 slave.cpp:3648] Current disk usage 9.46%. Max allowed age: 5.637636003370718days
+I0707 14:34:47.432456  2119 slave.cpp:3648] Current disk usage 9.46%. Max allowed age: 5.637636003370718days
+I0707 14:35:47.433748  2114 slave.cpp:3648] Current disk usage 9.46%. Max allowed age: 5.637636003370718days
+I0707 14:36:47.434679  2120 slave.cpp:3648] Current disk usage 9.46%. Max allowed age: 5.637636003370718days
+I0707 14:37:47.435688  2117 slave.cpp:3648] Current disk usage 9.46%. Max allowed age: 5.637636003370718days
+I0707 14:38:47.437193  2117 slave.cpp:3648] Current disk usage 9.46%. Max allowed age: 5.637636003370718days
+I0707 14:39:47.439198  2114 slave.cpp:3648] Current disk usage 9.46%. Max allowed age: 5.637636003370718days
+I0707 14:40:47.440368  2118 slave.cpp:3648] Current disk usage 9.46%. Max allowed age: 5.637637845774155days
+I0707 14:41:47.442288  2119 slave.cpp:3648] Current disk usage 9.46%. Max allowed age: 5.637637845774155days
+I0707 14:42:47.443413  2115 slave.cpp:3648] Current disk usage 9.46%. Max allowed age: 5.637637538706922days
+I0707 14:43:47.445088  2117 slave.cpp:3648] Current disk usage 9.46%. Max allowed age: 5.637566606174410days
+I0707 14:44:47.446018  2116 slave.cpp:3648] Current disk usage 9.46%. Max allowed age: 5.637512869407373days
+I0707 14:45:21.026108  2115 slave.cpp:1144] Got assigned task 1 for framework 20150707-142913-16777343-5050-1796-0000
+I0707 14:45:21.027308  2115 slave.cpp:1254] Launching task 1 for framework 20150707-142913-16777343-5050-1796-0000
+I0707 14:45:21.031958  2115 slave.cpp:4208] Launching executor 1 of framework 20150707-142913-16777343-5050-1796-0000 in work directory '/tmp/mesos/slaves/20150707-142913-16777343-5050-1796-S0/frameworks/20150707-142913-16777343-5050-1796-0000/executors/1/runs/f74b1f29-2216-4dc1-a734-161bf79e6e25'
+I0707 14:45:21.032677  2115 slave.cpp:1401] Queuing task '1' for executor 1 of framework '20150707-142913-16777343-5050-1796-0000
+I0707 14:45:21.036617  2118 docker.cpp:626] Starting container 'f74b1f29-2216-4dc1-a734-161bf79e6e25' for task '1' (and executor '1') of framework '20150707-142913-16777343-5050-1796-0000'
+I0707 14:45:21.380784  2115 slave.cpp:3165] Monitoring executor '1' of framework '20150707-142913-16777343-5050-1796-0000' in container 'f74b1f29-2216-4dc1-a734-161bf79e6e25'
+I0707 14:45:21.420564  2119 slave.cpp:2164] Got registration for executor '1' of framework 20150707-142913-16777343-5050-1796-0000 from executor(1)@127.0.1.1:57236
+I0707 14:45:21.421705  2113 docker.cpp:900] Ignoring updating container 'f74b1f29-2216-4dc1-a734-161bf79e6e25' with resources passed to update is identical to existing resources
+I0707 14:45:21.422114  2117 slave.cpp:1555] Sending queued task '1' to executor '1' of framework 20150707-142913-16777343-5050-1796-0000
+I0707 14:45:21.427376  2115 slave.cpp:2531] Handling status update TASK_RUNNING (UUID: 0a324946-114d-4bbb-bd2c-c529f854f4bb) for task 1 of framework 20150707-142913-16777343-5050-1796-0000 from executor(1)@127.0.1.1:57236
+I0707 14:45:21.427757  2114 status_update_manager.cpp:317] Received status update TASK_RUNNING (UUID: 0a324946-114d-4bbb-bd2c-c529f854f4bb) for task 1 of framework 20150707-142913-16777343-5050-1796-0000
+I0707 14:45:21.428732  2113 slave.cpp:2776] Forwarding the update TASK_RUNNING (UUID: 0a324946-114d-4bbb-bd2c-c529f854f4bb) for task 1 of framework 20150707-142913-16777343-5050-1796-0000 to master@127.0.0.1:5050
+I0707 14:45:21.429003  2113 slave.cpp:2709] Sending acknowledgement for status update TASK_RUNNING (UUID: 0a324946-114d-4bbb-bd2c-c529f854f4bb) for task 1 of framework 20150707-142913-16777343-5050-1796-0000 to executor(1)@127.0.1.1:57236
+I0707 14:45:21.446116  2120 status_update_manager.cpp:389] Received status update acknowledgement (UUID: 0a324946-114d-4bbb-bd2c-c529f854f4bb) for task 1 of framework 20150707-142913-16777343-5050-1796-0000
+I0707 14:45:21.528410  2116 slave.cpp:2531] Handling status update TASK_FINISHED (UUID: e25dae99-dc07-4165-9a03-629b498de607) for task 1 of framework 20150707-142913-16777343-5050-1796-0000 from executor(1)@127.0.1.1:57236
+I0707 14:45:21.584414  2118 status_update_manager.cpp:317] Received status update TASK_FINISHED (UUID: e25dae99-dc07-4165-9a03-629b498de607) for task 1 of framework 20150707-142913-16777343-5050-1796-0000
+I0707 14:45:21.585064  2117 slave.cpp:2776] Forwarding the update TASK_FINISHED (UUID: e25dae99-dc07-4165-9a03-629b498de607) for task 1 of framework 20150707-142913-16777343-5050-1796-0000 to master@127.0.0.1:5050
+I0707 14:45:21.585408  2117 slave.cpp:2709] Sending acknowledgement for status update TASK_FINISHED (UUID: e25dae99-dc07-4165-9a03-629b498de607) for task 1 of framework 20150707-142913-16777343-5050-1796-0000 to executor(1)@127.0.1.1:57236
+I0707 14:45:21.590385  2113 status_update_manager.cpp:389] Received status update acknowledgement (UUID: e25dae99-dc07-4165-9a03-629b498de607) for task 1 of framework 20150707-142913-16777343-5050-1796-0000
+I0707 14:45:22.600761  2116 docker.cpp:1404] Executor for container 'f74b1f29-2216-4dc1-a734-161bf79e6e25' has exited
+I0707 14:45:22.600908  2116 docker.cpp:1212] Destroying container 'f74b1f29-2216-4dc1-a734-161bf79e6e25'
+I0707 14:45:22.600968  2116 docker.cpp:1274] Sending SIGTERM to executor with pid: 4316
+I0707 14:45:22.644224  2116 docker.cpp:1319] Running docker stop on container 'f74b1f29-2216-4dc1-a734-161bf79e6e25'
+I0707 14:45:22.702803  2120 slave.cpp:3223] Executor '1' of framework 20150707-142913-16777343-5050-1796-0000 exited with status 0
+I0707 14:45:22.703208  2120 slave.cpp:3332] Cleaning up executor '1' of framework 20150707-142913-16777343-5050-1796-0000
+I0707 14:45:22.703518  2118 gc.cpp:56] Scheduling '/tmp/mesos/slaves/20150707-142913-16777343-5050-1796-S0/frameworks/20150707-142913-16777343-5050-1796-0000/executors/1/runs/f74b1f29-2216-4dc1-a734-161bf79e6e25' for gc 6.99999185888889days in the future
+I0707 14:45:22.703735  2120 slave.cpp:3411] Cleaning up framework 20150707-142913-16777343-5050-1796-0000
+I0707 14:45:22.703896  2119 status_update_manager.cpp:279] Closing status update streams for framework 20150707-142913-16777343-5050-1796-0000
+I0707 14:45:22.703987  2118 gc.cpp:56] Scheduling '/tmp/mesos/slaves/20150707-142913-16777343-5050-1796-S0/frameworks/20150707-142913-16777343-5050-1796-0000/executors/1' for gc 6.99999185638815days in the future
+I0707 14:45:22.704216  2118 gc.cpp:56] Scheduling '/tmp/mesos/slaves/20150707-142913-16777343-5050-1796-S0/frameworks/20150707-142913-16777343-5050-1796-0000' for gc 6.99999185293926days in the future
+I0707 14:45:30.832625  2120 http.cpp:331] HTTP request for '/slave(1)/state.json'
+I0707 14:45:47.447717  2117 slave.cpp:3648] Current disk usage 9.46%. Max allowed age: 5.637490760566065days
+I0707 14:46:21.034683  2115 slave.cpp:3564] Framework 20150707-142913-16777343-5050-1796-0000 seems to have exited. Ignoring registration timeout for executor '1'
+I0707 14:46:40.160768  2115 slave.cpp:1144] Got assigned task 2 for framework 20150707-142913-16777343-5050-1796-0000
+I0707 14:46:40.162341  2119 gc.cpp:84] Unscheduling '/tmp/mesos/slaves/20150707-142913-16777343-5050-1796-S0/frameworks/20150707-142913-16777343-5050-1796-0000' from gc
+I0707 14:46:40.162937  2115 slave.cpp:1254] Launching task 2 for framework 20150707-142913-16777343-5050-1796-0000
+I0707 14:46:40.171937  2115 slave.cpp:4208] Launching executor 2 of framework 20150707-142913-16777343-5050-1796-0000 in work directory '/tmp/mesos/slaves/20150707-142913-16777343-5050-1796-S0/frameworks/20150707-142913-16777343-5050-1796-0000/executors/2/runs/c7dfb238-db9e-414f-9b76-cb1ff8829386'
+I0707 14:46:40.172706  2115 slave.cpp:1401] Queuing task '2' for executor 2 of framework '20150707-142913-16777343-5050-1796-0000
+I0707 14:46:40.180464  2119 docker.cpp:626] Starting container 'c7dfb238-db9e-414f-9b76-cb1ff8829386' for task '2' (and executor '2') of framework '20150707-142913-16777343-5050-1796-0000'
+I0707 14:46:40.439986  2118 slave.cpp:3165] Monitoring executor '2' of framework '20150707-142913-16777343-5050-1796-0000' in container 'c7dfb238-db9e-414f-9b76-cb1ff8829386'
+I0707 14:46:40.478953  2115 slave.cpp:2164] Got registration for executor '2' of framework 20150707-142913-16777343-5050-1796-0000 from executor(1)@127.0.1.1:37531
+I0707 14:46:40.479846  2116 docker.cpp:900] Ignoring updating container 'c7dfb238-db9e-414f-9b76-cb1ff8829386' with resources passed to update is identical to existing resources
+I0707 14:46:40.480185  2114 slave.cpp:1555] Sending queued task '2' to executor '2' of framework 20150707-142913-16777343-5050-1796-0000
+I0707 14:46:40.485739  2117 slave.cpp:2531] Handling status update TASK_RUNNING (UUID: 00ba7845-1e1e-4293-86f8-51104f2daa98) for task 2 of framework 20150707-142913-16777343-5050-1796-0000 from executor(1)@127.0.1.1:37531
+I0707 14:46:40.485991  2115 status_update_manager.cpp:317] Received status update TASK_RUNNING (UUID: 00ba7845-1e1e-4293-86f8-51104f2daa98) for task 2 of framework 20150707-142913-16777343-5050-1796-0000
+I0707 14:46:40.486368  2118 slave.cpp:2776] Forwarding the update TASK_RUNNING (UUID: 00ba7845-1e1e-4293-86f8-51104f2daa98) for task 2 of framework 20150707-142913-16777343-5050-1796-0000 to master@127.0.0.1:5050
+I0707 14:46:40.486608  2118 slave.cpp:2709] Sending acknowledgement for status update TASK_RUNNING (UUID: 00ba7845-1e1e-4293-86f8-51104f2daa98) for task 2 of framework 20150707-142913-16777343-5050-1796-0000 to executor(1)@127.0.1.1:37531
+I0707 14:46:40.490753  2120 status_update_manager.cpp:389] Received status update acknowledgement (UUID: 00ba7845-1e1e-4293-86f8-51104f2daa98) for task 2 of framework 20150707-142913-16777343-5050-1796-0000
+I0707 14:46:40.691010  2113 slave.cpp:2531] Handling status update TASK_FINISHED (UUID: 6f42250a-ff3e-435c-bcb6-2d7990f4e7e5) for task 2 of framework 20150707-142913-16777343-5050-1796-0000 from executor(1)@127.0.1.1:37531
+I0707 14:46:40.745234  2119 status_update_manager.cpp:317] Received status update TASK_FINISHED (UUID: 6f42250a-ff3e-435c-bcb6-2d7990f4e7e5) for task 2 of framework 20150707-142913-16777343-5050-1796-0000
+I0707 14:46:40.745656  2115 slave.cpp:2776] Forwarding the update TASK_FINISHED (UUID: 6f42250a-ff3e-435c-bcb6-2d7990f4e7e5) for task 2 of framework 20150707-142913-16777343-5050-1796-0000 to master@127.0.0.1:5050
+I0707 14:46:40.746070  2115 slave.cpp:2709] Sending acknowledgement for status update TASK_FINISHED (UUID: 6f42250a-ff3e-435c-bcb6-2d7990f4e7e5) for task 2 of framework 20150707-142913-16777343-5050-1796-0000 to executor(1)@127.0.1.1:37531
+I0707 14:46:40.751051  2117 status_update_manager.cpp:389] Received status update acknowledgement (UUID: 6f42250a-ff3e-435c-bcb6-2d7990f4e7e5) for task 2 of framework 20150707-142913-16777343-5050-1796-0000
+I0707 14:46:41.763541  2116 docker.cpp:1404] Executor for container 'c7dfb238-db9e-414f-9b76-cb1ff8829386' has exited
+I0707 14:46:41.763723  2116 docker.cpp:1212] Destroying container 'c7dfb238-db9e-414f-9b76-cb1ff8829386'
+I0707 14:46:41.763775  2116 docker.cpp:1274] Sending SIGTERM to executor with pid: 4438
+I0707 14:46:41.800525  2116 docker.cpp:1319] Running docker stop on container 'c7dfb238-db9e-414f-9b76-cb1ff8829386'
+I0707 14:46:41.865762  2117 slave.cpp:3223] Executor '2' of framework 20150707-142913-16777343-5050-1796-0000 exited with status 0
+I0707 14:46:41.866132  2117 slave.cpp:3332] Cleaning up executor '2' of framework 20150707-142913-16777343-5050-1796-0000
+I0707 14:46:41.866507  2120 gc.cpp:56] Scheduling '/tmp/mesos/slaves/20150707-142913-16777343-5050-1796-S0/frameworks/20150707-142913-16777343-5050-1796-0000/executors/2/runs/c7dfb238-db9e-414f-9b76-cb1ff8829386' for gc 6.99998997304593days in the future
+I0707 14:46:41.866643  2117 slave.cpp:3411] Cleaning up framework 20150707-142913-16777343-5050-1796-0000
+I0707 14:46:41.866785  2120 gc.cpp:56] Scheduling '/tmp/mesos/slaves/20150707-142913-16777343-5050-1796-S0/frameworks/20150707-142913-16777343-5050-1796-0000/executors/2' for gc 6.99998997035852days in the future
+I0707 14:46:41.866832  2119 status_update_manager.cpp:279] Closing status update streams for framework 20150707-142913-16777343-5050-1796-0000
+I0707 14:46:41.867012  2120 gc.cpp:56] Scheduling '/tmp/mesos/slaves/20150707-142913-16777343-5050-1796-S0/frameworks/20150707-142913-16777343-5050-1796-0000' for gc 6.99998996784889days in the future
+I0707 14:46:47.449584  2120 slave.cpp:3648] Current disk usage 9.46%. Max allowed age: 5.637477556674733days
+I0707 14:46:57.820272  2118 http.cpp:331] HTTP request for '/slave(1)/state.json'
+I0707 14:47:40.173776  2118 slave.cpp:3564] Framework 20150707-142913-16777343-5050-1796-0000 seems to have exited. Ignoring registration timeout for executor '2'
+I0707 14:47:47.451382  2115 slave.cpp:3648] Current disk usage 9.46%. Max allowed age: 5.637476635473021days
+I0707 14:48:47.452560  2120 slave.cpp:3648] Current disk usage 9.46%. Max allowed age: 5.637475714271297days
+I0707 14:49:47.454334  2118 slave.cpp:3648] Current disk usage 9.46%. Max allowed age: 5.637474793069572days
+I0707 14:50:47.456687  2115 slave.cpp:3648] Current disk usage 9.46%. Max allowed age: 5.637473871867859days
+I0707 14:51:19.499892  2119 http.cpp:331] HTTP request for '/slave(1)/state.json'
+I0707 14:51:47.458523  2118 slave.cpp:3648] Current disk usage 9.46%. Max allowed age: 5.637472643598889days
+I0707 14:52:47.460057  2118 slave.cpp:3648] Current disk usage 9.46%. Max allowed age: 5.637472029464409days
+I0707 14:53:47.462211  2116 slave.cpp:3648] Current disk usage 9.46%. Max allowed age: 5.637471108262697days
+I0707 14:54:47.464099  2117 slave.cpp:3648] Current disk usage 9.46%. Max allowed age: 5.637470187060972days
+I0707 14:55:47.465360  2118 slave.cpp:3648] Current disk usage 9.46%. Max allowed age: 5.637469265859248days
+I0707 14:56:47.466541  2120 slave.cpp:3648] Current disk usage 9.46%. Max allowed age: 5.637468651724769days
+I0707 14:57:47.467885  2119 slave.cpp:3648] Current disk usage 9.46%. Max allowed age: 5.637467423455810days
+I0707 14:58:47.469043  2120 slave.cpp:3648] Current disk usage 9.46%. Max allowed age: 5.637466809321331days
+I0707 14:59:47.470357  2113 slave.cpp:3648] Current disk usage 9.46%. Max allowed age: 5.637465888119607days
+I0707 15:00:47.472267  2118 slave.cpp:3648] Current disk usage 9.46%. Max allowed age: 5.637464966917882days
+I0707 15:01:47.473788  2118 slave.cpp:3648] Current disk usage 9.46%. Max allowed age: 5.637464045716169days
+I0707 15:02:47.475695  2115 slave.cpp:3648] Current disk usage 9.46%. Max allowed age: 5.637463431581690days
+I0707 15:03:15.851435  2116 slave.cpp:1144] Got assigned task 3 for framework 20150707-142913-16777343-5050-1796-0000
+I0707 15:03:15.853528  2120 gc.cpp:84] Unscheduling '/tmp/mesos/slaves/20150707-142913-16777343-5050-1796-S0/frameworks/20150707-142913-16777343-5050-1796-0000' from gc
+I0707 15:03:15.854230  2116 slave.cpp:1254] Launching task 3 for framework 20150707-142913-16777343-5050-1796-0000
+I0707 15:03:15.864624  2116 slave.cpp:4208] Launching executor 3 of framework 20150707-142913-16777343-5050-1796-0000 in work directory '/tmp/mesos/slaves/20150707-142913-16777343-5050-1796-S0/frameworks/20150707-142913-16777343-5050-1796-0000/executors/3/runs/fff0c033-b3c3-42e2-82cd-c12068b5d4fd'
+I0707 15:03:15.865643  2116 slave.cpp:1401] Queuing task '3' for executor 3 of framework '20150707-142913-16777343-5050-1796-0000
+I0707 15:03:15.873348  2114 docker.cpp:626] Starting container 'fff0c033-b3c3-42e2-82cd-c12068b5d4fd' for task '3' (and executor '3') of framework '20150707-142913-16777343-5050-1796-0000'
+I0707 15:03:16.311003  2116 slave.cpp:3165] Monitoring executor '3' of framework '20150707-142913-16777343-5050-1796-0000' in container 'fff0c033-b3c3-42e2-82cd-c12068b5d4fd'
+I0707 15:03:16.358224  2116 slave.cpp:2164] Got registration for executor '3' of framework 20150707-142913-16777343-5050-1796-0000 from executor(1)@127.0.1.1:56512
+I0707 15:03:16.359067  2115 docker.cpp:900] Ignoring updating container 'fff0c033-b3c3-42e2-82cd-c12068b5d4fd' with resources passed to update is identical to existing resources
+I0707 15:03:16.359364  2114 slave.cpp:1555] Sending queued task '3' to executor '3' of framework 20150707-142913-16777343-5050-1796-0000
+I0707 15:03:16.365427  2113 slave.cpp:2531] Handling status update TASK_RUNNING (UUID: 1575522b-a537-445a-9d41-610169f77721) for task 3 of framework 20150707-142913-16777343-5050-1796-0000 from executor(1)@127.0.1.1:56512
+I0707 15:03:16.365670  2117 status_update_manager.cpp:317] Received status update TASK_RUNNING (UUID: 1575522b-a537-445a-9d41-610169f77721) for task 3 of framework 20150707-142913-16777343-5050-1796-0000
+I0707 15:03:16.366080  2119 slave.cpp:2776] Forwarding the update TASK_RUNNING (UUID: 1575522b-a537-445a-9d41-610169f77721) for task 3 of framework 20150707-142913-16777343-5050-1796-0000 to master@127.0.0.1:5050
+I0707 15:03:16.366314  2119 slave.cpp:2709] Sending acknowledgement for status update TASK_RUNNING (UUID: 1575522b-a537-445a-9d41-610169f77721) for task 3 of framework 20150707-142913-16777343-5050-1796-0000 to executor(1)@127.0.1.1:56512
+I0707 15:03:16.371599  2114 status_update_manager.cpp:389] Received status update acknowledgement (UUID: 1575522b-a537-445a-9d41-610169f77721) for task 3 of framework 20150707-142913-16777343-5050-1796-0000
+I0707 15:03:16.469233  2116 slave.cpp:2531] Handling status update TASK_FINISHED (UUID: 450a9771-b22b-4869-884b-9cfd098ed04a) for task 3 of framework 20150707-142913-16777343-5050-1796-0000 from executor(1)@127.0.1.1:56512
+I0707 15:03:16.510293  2114 status_update_manager.cpp:317] Received status update TASK_FINISHED (UUID: 450a9771-b22b-4869-884b-9cfd098ed04a) for task 3 of framework 20150707-142913-16777343-5050-1796-0000
+I0707 15:03:16.510691  2116 slave.cpp:2776] Forwarding the update TASK_FINISHED (UUID: 450a9771-b22b-4869-884b-9cfd098ed04a) for task 3 of framework 20150707-142913-16777343-5050-1796-0000 to master@127.0.0.1:5050
+I0707 15:03:16.511200  2116 slave.cpp:2709] Sending acknowledgement for status update TASK_FINISHED (UUID: 450a9771-b22b-4869-884b-9cfd098ed04a) for task 3 of framework 20150707-142913-16777343-5050-1796-0000 to executor(1)@127.0.1.1:56512
+I0707 15:03:16.514698  2113 status_update_manager.cpp:389] Received status update acknowledgement (UUID: 450a9771-b22b-4869-884b-9cfd098ed04a) for task 3 of framework 20150707-142913-16777343-5050-1796-0000
+I0707 15:03:17.528645  2113 docker.cpp:1404] Executor for container 'fff0c033-b3c3-42e2-82cd-c12068b5d4fd' has exited
+I0707 15:03:17.528822  2113 docker.cpp:1212] Destroying container 'fff0c033-b3c3-42e2-82cd-c12068b5d4fd'
+I0707 15:03:17.528867  2113 docker.cpp:1274] Sending SIGTERM to executor with pid: 4776
+I0707 15:03:17.566581  2113 docker.cpp:1319] Running docker stop on container 'fff0c033-b3c3-42e2-82cd-c12068b5d4fd'
+I0707 15:03:17.630559  2115 slave.cpp:3223] Executor '3' of framework 20150707-142913-16777343-5050-1796-0000 exited with status 0
+I0707 15:03:17.630784  2115 slave.cpp:3332] Cleaning up executor '3' of framework 20150707-142913-16777343-5050-1796-0000
+I0707 15:03:17.631022  2118 gc.cpp:56] Scheduling '/tmp/mesos/slaves/20150707-142913-16777343-5050-1796-S0/frameworks/20150707-142913-16777343-5050-1796-0000/executors/3/runs/fff0c033-b3c3-42e2-82cd-c12068b5d4fd' for gc 6.99999269781333days in the future
+I0707 15:03:17.631132  2115 slave.cpp:3411] Cleaning up framework 20150707-142913-16777343-5050-1796-0000
+I0707 15:03:17.631208  2118 gc.cpp:56] Scheduling '/tmp/mesos/slaves/20150707-142913-16777343-5050-1796-S0/frameworks/20150707-142913-16777343-5050-1796-0000/executors/3' for gc 6.99999269590222days in the future
+I0707 15:03:17.631252  2117 status_update_manager.cpp:279] Closing status update streams for framework 20150707-142913-16777343-5050-1796-0000
+I0707 15:03:17.631332  2118 gc.cpp:56] Scheduling '/tmp/mesos/slaves/20150707-142913-16777343-5050-1796-S0/frameworks/20150707-142913-16777343-5050-1796-0000' for gc 6.99999269400593days in the future
+I0707 15:03:47.477540  2119 slave.cpp:3648] Current disk usage 9.47%. Max allowed age: 5.637449920623113days
+I0707 15:04:15.866708  2116 slave.cpp:3564] Framework 20150707-142913-16777343-5050-1796-0000 seems to have exited. Ignoring registration timeout for executor '3'
+I0707 15:04:47.479832  2120 slave.cpp:3648] Current disk usage 9.47%. Max allowed age: 5.637448999421389days
+I0707 15:05:47.481757  2120 slave.cpp:3648] Current disk usage 9.47%. Max allowed age: 5.637448078219676days
+I0707 15:06:47.482642  2117 slave.cpp:3648] Current disk usage 9.51%. Max allowed age: 5.634368500867025days
+I0707 15:07:47.483631  2119 slave.cpp:3648] Current disk usage 9.57%. Max allowed age: 5.629755736783715days
+I0707 15:08:25.241343  2116 slave.cpp:1768] Asked to shut down framework 20150707-142913-16777343-5050-1796-0000 by master@127.0.0.1:5050
+W0707 15:08:25.241425  2116 slave.cpp:1783] Cannot shut down unknown framework 20150707-142913-16777343-5050-1796-0000
+I0707 15:08:47.484748  2116 slave.cpp:3648] Current disk usage 9.59%. Max allowed age: 5.628506894317534days
+I0707 15:09:47.486580  2118 slave.cpp:3648] Current disk usage 9.59%. Max allowed age: 5.628506894317534days
+I0707 15:10:47.488314  2118 slave.cpp:3648] Current disk usage 9.59%. Max allowed age: 5.628506894317534days
+I0707 15:11:47.489989  2117 slave.cpp:3648] Current disk usage 9.59%. Max allowed age: 5.628506587250301days
+I0707 15:12:47.491544  2118 slave.cpp:3648] Current disk usage 9.59%. Max allowed age: 5.628506587250301days
+I0707 15:13:47.493805  2116 slave.cpp:3648] Current disk usage 9.59%. Max allowed age: 5.628506587250301days
+I0707 15:14:47.495023  2116 slave.cpp:3648] Current disk usage 9.59%. Max allowed age: 5.628505973115821days
+I0707 15:15:47.497263  2117 slave.cpp:3648] Current disk usage 9.59%. Max allowed age: 5.628505973115821days
+I0707 15:16:47.499028  2117 slave.cpp:3648] Current disk usage 9.59%. Max allowed age: 5.628505973115821days
+I0707 15:17:47.500005  2115 slave.cpp:3648] Current disk usage 9.59%. Max allowed age: 5.628505973115821days
+I0707 15:18:47.501258  2115 slave.cpp:3648] Current disk usage 9.59%. Max allowed age: 5.628505973115821days
+I0707 15:19:47.503473  2118 slave.cpp:3648] Current disk usage 9.59%. Max allowed age: 5.628506587250301days
+W0707 15:19:47.503473  2112 logging.cpp:81] RAW: Received signal SIGTERM from process 1 of user 0; exiting
