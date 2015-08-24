@@ -23,6 +23,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -30,6 +31,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 import org.apache.mesos.Protos.CommandInfo;
 import org.apache.mesos.Protos.FrameworkID;
 import org.apache.mesos.Protos.Volume;
+import org.bioboxes.bioboxmesossheduler.comparator.DockerTaskComparator;
+import org.bioboxes.bioboxmesossheduler.tasks.DockerTask;
 
 /**
  * Example scheduler to launch Docker containers.
@@ -46,12 +49,11 @@ public class MesosScheduler implements Scheduler {
      */
     private final AtomicInteger taskIDGenerator = new AtomicInteger();
 
-    private final List<Protos.TaskInfo> pendingTasks = new ArrayList<>();
-    private final Map<String, Protos.TaskInfo> runningTasks = new HashMap<>();
-    private final Map<String, Protos.TaskInfo> finishedTasks = new HashMap<>();
-    private final Map<String, Protos.TaskInfo> failedTasks = new HashMap<>();
-
-    private Protos.FrameworkID frameworkID;
+    private final List<DockerTask> pendingTasks = new ArrayList<>();
+    private final List<DockerTask> stagingTasks = new ArrayList<>();
+    private final List<DockerTask> runningTasks = new ArrayList<>();
+    private final List<DockerTask> finishedTasks = new ArrayList<>();
+    private final List<DockerTask> failedTasks = new ArrayList<>();
 
     /**
      * C'tor with List of docker images.
@@ -60,65 +62,16 @@ public class MesosScheduler implements Scheduler {
     public MesosScheduler() {
     }
 
-    public Protos.TaskInfo addTask(String dockerImage, int maxCPU, int maxMEM, String principal, List<String> hostVolumes, List<String> containerVolumes, String... arg) {
-        Protos.TaskID taskId = Protos.TaskID.newBuilder()
-                .setValue(principal + "_" + Integer.toString(taskIDGenerator.incrementAndGet())).build();
-
-        /**
-         * DockerContainer Builder.
-         */
-        Protos.ContainerInfo.DockerInfo.Builder dockerInfoBuilder = Protos.ContainerInfo.DockerInfo.newBuilder();
-        dockerInfoBuilder.setImage(dockerImage);
-        dockerInfoBuilder.setNetwork(Protos.ContainerInfo.DockerInfo.Network.BRIDGE);
-        /**
-         * Container Builder.
-         */
-        Protos.ContainerInfo.Builder containerInfoBuilder = Protos.ContainerInfo.newBuilder();
-        containerInfoBuilder.setType(Protos.ContainerInfo.Type.DOCKER);
-        containerInfoBuilder.setDocker(dockerInfoBuilder.build());
-        // Mount volumes if needed
-        if (hostVolumes != null && containerVolumes != null) {
-            int nHostVolumes = hostVolumes.size();
-            if (nHostVolumes != containerVolumes.size()) {
-                logger.error("Volume declarations of host and container differ in length ...");
-            }
-            
-            for (int i = 0; i < nHostVolumes; i++) {
-                containerInfoBuilder.addVolumes(Volume.newBuilder()
-                        .setContainerPath(containerVolumes.get(i))
-                        .setHostPath(hostVolumes.get(i))
-                        .setMode(Volume.Mode.RW)
-                        .build());
-            }
-        }
-        /**
-         * Task Builder.
-         */
-        Protos.TaskInfo task = Protos.TaskInfo.newBuilder()
-                .setName("task " + taskId.getValue())
-                .setTaskId(taskId)
-                .addResources(Protos.Resource.newBuilder()
-                        .setName("cpus")
-                        .setType(Protos.Value.Type.SCALAR)
-                        .setScalar(Protos.Value.Scalar.newBuilder().setValue(maxCPU)))
-                .addResources(Protos.Resource.newBuilder()
-                        .setName("mem")
-                        .setType(Protos.Value.Type.SCALAR)
-                        .setScalar(Protos.Value.Scalar.newBuilder().setValue(maxMEM)))
-                .setContainer(containerInfoBuilder)
-                .setCommand(CommandInfo.newBuilder().setShell(false).build())
-                .buildPartial(); // partialBuild, because we'll add the slaveID later
-
-        Protos.TaskInfo taskWithArgument = Protos.TaskInfo.newBuilder(task).mergeCommand(CommandInfo.newBuilder().addAllArguments(Arrays.asList(arg)).setShell(false).build()).buildPartial();
-        pendingTasks.add(taskWithArgument);
+    public void addTask(String dockerImage, int maxCPU, int maxMEM, String principal, List<String> hostVolumes, List<String> containerVolumes, String... arg) {
+        DockerTask newDT = new DockerTask()
+                .createTask(taskIDGenerator.incrementAndGet(), dockerImage, maxCPU, maxMEM, principal, hostVolumes, containerVolumes, arg);
+        pendingTasks.add(newDT);
         logger.info("PendingTasks Size {}", pendingTasks.size());
-        return taskWithArgument;
     }
 
     @Override
     public void registered(SchedulerDriver schedulerDriver, Protos.FrameworkID frameworkID, Protos.MasterInfo masterInfo) {
         logger.info("registered() master={}:{}, framework={}", masterInfo.getIp(), masterInfo.getPort(), frameworkID);
-        this.frameworkID = frameworkID;
     }
 
     @Override
@@ -136,67 +89,79 @@ public class MesosScheduler implements Scheduler {
          * ) = amount per offer
          */
         for (final Protos.Offer offer : offers) {
-            List<Protos.Resource> availableResources = offer.getResourcesList();
-            double available_CPU = 0;
-            double available_MEM = 0;
 
-            /**
-             * Offer Informations.
-             */
-            for (Protos.Resource r : availableResources) {
-                switch (r.getName().toLowerCase()) {
-                    case "cpus":
-                        available_CPU = r.getScalar().getValue();
-                        break;
-                    case "mem":
-                        available_MEM = r.getScalar().getValue();
-                        break;
+            if (pendingTasks.isEmpty()) {
+
+                schedulerDriver.declineOffer(offer.getId()); // no work
+
+            } else {
+
+                for (DockerTask d : pendingTasks) {
+                    d.calculatePriority(offers.size(), offer); // calculate priority
                 }
-            }
 
-            List<Protos.TaskInfo> tmp = new ArrayList<>();
+                Collections.sort(pendingTasks, new DockerTaskComparator()); // sort by priority
 
-            while (!pendingTasks.isEmpty()) {
-                double needed_CPU = 0;
-                double needed_MEM = 0;
-                Protos.TaskInfo actualTask = pendingTasks.get(0);
+                double available_CPU = getResource("cpus", offer); // slave cpu
+                double available_MEM = getResource("mem", offer); // slave mem
 
-                List<Protos.Resource> actualTaskResources = actualTask.getResourcesList();
-                for (Protos.Resource r : actualTaskResources) {
-                    switch (r.getName().toLowerCase()) {
-                        case "cpus":
-                            needed_CPU = r.getScalar().getValue();
-                            break;
-                        case "mem":
-                            needed_MEM = r.getScalar().getValue();
-                            break;
+                stagingTasks.clear();
+
+                while (!pendingTasks.isEmpty()) {
+
+                    DockerTask actualTask = pendingTasks.get(0);
+
+                    double needed_CPU = actualTask.getNeeded_CPU();
+                    double needed_MEM = actualTask.getNeeded_MEM();
+
+                    if (available_CPU >= needed_CPU
+                            && available_MEM >= needed_MEM) {
+
+                        available_CPU -= needed_CPU;
+                        available_MEM -= needed_MEM;
+
+                        pendingTasks.remove(actualTask);
+                        stagingTasks.add(actualTask.prepareToRun(offer));
+
+                        logger.debug("Added Task: " + actualTask.getTaskContent().getTaskId().getValue());
+                    } else {
+                        logger.warn("BREAK: Task execution not possible. Offer resources exhausted");
+                        break;
                     }
                 }
+                if (!stagingTasks.isEmpty()) {
 
-                if (available_CPU >= needed_CPU
-                        && available_MEM >= needed_MEM) {
-                    Protos.TaskInfo tmpTask = Protos.TaskInfo.newBuilder(actualTask)
-                            .mergeSlaveId(offer.getSlaveId())
-                            .build();
-                    tmp.add(tmpTask);
-                    available_CPU -= needed_CPU;
-                    available_MEM -= needed_MEM;
-                    pendingTasks.remove(actualTask);
-                    runningTasks.put(tmpTask.getTaskId().getValue(), tmpTask);
-                    logger.debug("Added Task: " + actualTask.getTaskId().getValue());
+                    Protos.Filters filters = Protos.Filters.newBuilder().setRefuseSeconds(10).build();
+                    List<Protos.TaskInfo> tmp = new ArrayList<>();
+
+                    for (DockerTask t : stagingTasks) {
+                        tmp.add(t.getTaskContent());
+                        runningTasks.add(t);
+                    }
+
+                    schedulerDriver.launchTasks(offer.getId(), tmp, filters);
+
+                    logger.info("Started Tasks: {} on Slave: ({})", tmp.size(), offer.getId().getValue());
                 } else {
-                    logger.warn("BREAK: Task execution not possible. Offer resources exhausted");
-                    break;
+                    schedulerDriver.declineOffer(offer.getId());
                 }
             }
-            if (!tmp.isEmpty()) {
-                Protos.Filters filters = Protos.Filters.newBuilder().setRefuseSeconds(10).build();
-                schedulerDriver.launchTasks(offer.getId(), tmp, filters);
-                logger.info("Started Tasks: {} on Slave: ({})", tmp.size(), offer.getId().getValue());
-            } else {
-                schedulerDriver.declineOffer(offer.getId());
+        }
+    }
+
+    /**
+     *
+     * @param type - 'mem' or 'cpus'
+     * @param offer
+     * @return
+     */
+    private double getResource(String type, Protos.Offer offer) {
+        for (Protos.Resource r : offer.getResourcesList()) {
+            if (r.getName().equals(type)) {
+                return r.getScalar().getValue();
             }
         }
+        return -1;
     }
 
     @Override
@@ -209,26 +174,45 @@ public class MesosScheduler implements Scheduler {
 
         final String taskId = taskStatus.getTaskId().getValue();
 
-        logger.info("statusUpdate() task {} is in state {}",
-                taskId, taskStatus.getState());
+        DockerTask actualTask = null;
 
-        switch (taskStatus.getState()) {
+        for (DockerTask t : runningTasks) {
+            if (t.getTaskContent().getTaskId().getValue().equals(taskId)) {
+                actualTask = t;
+                break;
+            }
+        }
+
+        actualTask.setStatus(taskStatus.getState());
+
+        logger.info("statusUpdate() task {} is in state {}",
+                taskId, actualTask.getStatus());
+
+        switch (actualTask.getStatus()) {
             case TASK_RUNNING:
+                logger.info("Task [{}] running ( {} seconds | {} minutes )", actualTask.getTaskContent().getTaskId().getValue(), actualTask.getRuntimeSeconds(), actualTask.getRuntimeMinutes());
                 break;
             case TASK_FINISHED:
-                finishedTasks.put(taskId, runningTasks.remove(taskId));
+                logger.info("Task {} FINISHED (in {} seconds)", actualTask.getTaskContent().getTaskId().getValue(), actualTask.getRuntimeSeconds());
+                finishedTasks.add(actualTask);
+                runningTasks.remove(actualTask);
                 break;
             default:
-                /**
-                 * BIIIIG PROBLEM! needs to evaluate error messages!
-                 */
                 logger.warn("Task-Problem: Cause = {}", taskStatus.getReason());
-                switch (taskStatus.getReason()) {
-                    case REASON_COMMAND_EXECUTOR_FAILED:
-                        logger.info("ReScheduling Task ...");
-                        pendingTasks.add(runningTasks.get(taskId));
-                        runningTasks.remove(taskId);
-                        break;
+                if (actualTask.getExecutionErrors() <= 3) {
+                    switch (taskStatus.getReason()) {
+                        case REASON_COMMAND_EXECUTOR_FAILED:
+                            actualTask.setExecutionErrors(actualTask.getExecutionErrors() + 1);
+                            logger.info("Retrying Task Execution ...");
+                            logger.debug("REASON: {}", taskStatus.getReason());
+                            pendingTasks.add(actualTask);
+                            runningTasks.remove(actualTask);
+                            break;
+                    }
+                } else {
+                    logger.warn("Task [{}] gets dequeued in case of a three-timed failed execution.", actualTask.getTaskContent().getTaskId());
+                    logger.warn("Task [{}] -> latest Reason [{}]", taskStatus.getReason());
+                    runningTasks.remove(actualTask);
                 }
                 break;
         }
@@ -262,24 +246,19 @@ public class MesosScheduler implements Scheduler {
         logger.error("error() {}", s);
     }
 
-    public List<Protos.TaskInfo> getPendingTasks() {
+    public List<DockerTask> getPendingTasks() {
         return pendingTasks;
     }
 
-    public Map<String, Protos.TaskInfo> getRunningTasks() {
+    public List<DockerTask> getRunningTasks() {
         return runningTasks;
     }
 
-    public Map<String, Protos.TaskInfo> getFinishedTasks() {
+    public List<DockerTask> getFinishedTasks() {
         return finishedTasks;
     }
 
-    public Map<String, Protos.TaskInfo> getFailedTasks() {
+    public List<DockerTask> getFailedTasks() {
         return failedTasks;
     }
-
-    public FrameworkID getFramework() {
-        return this.frameworkID;
-    }
-
 }

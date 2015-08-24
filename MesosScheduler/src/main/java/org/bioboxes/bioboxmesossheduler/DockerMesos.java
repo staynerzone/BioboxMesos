@@ -73,7 +73,7 @@ public class DockerMesos {
         /**
          * Need to find libmesos.so.
          */
-        Path startingDir = Paths.get("/usr/");
+        Path startingDir = Paths.get("/usr/local/lib");
         String pattern = "libmesos.so";
         LibMesosFinder finder = new LibMesosFinder(pattern);
         try {
@@ -102,6 +102,7 @@ public class DockerMesos {
     }
 
     public void start() {
+        logger.info("Scheduling started ...");
         driver.run();
     }
 
