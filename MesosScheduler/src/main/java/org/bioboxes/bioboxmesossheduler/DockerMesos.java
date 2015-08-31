@@ -36,7 +36,7 @@ import org.slf4j.LoggerFactory;
  * Source code adapted from the example that ships with Mesos.
  */
 public class DockerMesos {
-
+    
     private static final Logger logger = LoggerFactory.getLogger(DockerMesos.class);
     private final MesosSchedulerDriver driver;
     private final MesosScheduler scheduler;
@@ -51,29 +51,30 @@ public class DockerMesos {
      */
     public static void main(String[] args) throws Exception {
         Credential credential = Credential.newBuilder()
-                .setPrincipal("hannes")
-                .setSecret(ByteString.copyFrom("jojo".getBytes()))
+                .setPrincipal("jojo")
+                .setSecret(ByteString.copyFrom("123".getBytes()))
                 .build();
-
-        final DockerMesos ef = new DockerMesos("127.0.0.1:5050", credential);
+        
+        final DockerMesos ef = new DockerMesos("10.10.0.5:5050", null);
         Thread t = new Thread(new Runnable() {
-
+            
             @Override
             public void run() {
                 ef.start();
             }
         });
         t.start();
-//        ef.getScheduler().addTask("hello-world", 1, 256, "jsteiner", null, null);
+        ef.getScheduler().addTask("hello-world", 1, 256, "jsteiner", null, null);
 
 //        System.exit(0);
     }
-
+    
     public DockerMesos(String masterIP, Credential mesosFrameworkCredentials) {
         /**
          * Need to find libmesos.so.
          */
         Path startingDir = Paths.get("/usr/local/lib");
+//        Path startingDir = Paths.get("/home/jsteiner");
         String pattern = "libmesos.so";
         LibMesosFinder finder = new LibMesosFinder(pattern);
         try {
@@ -82,9 +83,9 @@ public class DockerMesos {
         } catch (IOException ex) {
             System.load("/usr/local/lib/libmesos.so");
         }
-
-        int frameworkFailoverTimeout = 25;
-
+        
+        int frameworkFailoverTimeout = 10;
+        
         Random r = new Random();
         FrameworkInfo mesosFramework = FrameworkInfo.newBuilder()
                 .setName("BioBox-Mesos-Framework_" + r.nextInt(10000))
@@ -93,21 +94,21 @@ public class DockerMesos {
                 .build(); // timeout in seconds
 
         scheduler = new MesosScheduler();
-
+        
         if (mesosFrameworkCredentials == null) {
             driver = new MesosSchedulerDriver(scheduler, mesosFramework, masterIP);
         } else {
             driver = new MesosSchedulerDriver(scheduler, mesosFramework, masterIP, mesosFrameworkCredentials);
         }
     }
-
+    
     public void start() {
         logger.info("Scheduling started ...");
         driver.run();
     }
-
+    
     public MesosScheduler getScheduler() {
         return this.scheduler;
     }
-
+    
 }

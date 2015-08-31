@@ -9,9 +9,9 @@
 
     <loggers>
 
-        <logger name="com.codefutures" level="INFO" />
+        <logger name="com.codefutures" level="DEBUG" />
 
-        <root level="info">
+        <root level="debug">
             <appender-ref ref="STDOUT"/>
         </root>
 

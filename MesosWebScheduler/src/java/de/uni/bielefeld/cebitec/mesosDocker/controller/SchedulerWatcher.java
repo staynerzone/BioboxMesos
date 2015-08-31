@@ -24,6 +24,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 import org.apache.mesos.Protos;
+import org.bioboxes.bioboxmesossheduler.tasks.DockerTask;
 
 /**
  *
@@ -36,13 +37,11 @@ public class SchedulerWatcher {
     @ManagedProperty(value = "#{schedulerStarter}")
     private SchedulerStarter scheduler;
 
-    List<Protos.TaskInfo> pendingTasks;
-    Map<String, Protos.TaskInfo> runningTasks;
-    Map<String, Protos.TaskInfo> finishedTasks;
-    List<Protos.TaskInfo> finished;
-    List<Protos.TaskInfo> running;
-    List<Protos.TaskInfo> pending;
-    
+    List<DockerTask> finished;
+    List<DockerTask> running;
+    List<DockerTask> pending;
+    List<DockerTask> failed;
+
     private int maxSystemCPUCores;
 
     private boolean masterReachable = false;
@@ -61,28 +60,23 @@ public class SchedulerWatcher {
         slaveReachable = slaveReachable();
         maxSystemCPUCores = Runtime.getRuntime().availableProcessors();
     }
-    
+
     private boolean pollerFinish = false;
-    
+
     public boolean getPollerFinish() {
         return pollerFinish;
     }
 
     public void reloadLists() {
-        finishedTasks = scheduler.getScheduler().getScheduler().getFinishedTasks();
-        pendingTasks = scheduler.getScheduler().getScheduler().getPendingTasks();
-        runningTasks = scheduler.getScheduler().getScheduler().getRunningTasks();
-        
-        finished = new ArrayList<>(finishedTasks.values());
-        pending = new ArrayList<>(pendingTasks);
-        running = new ArrayList<>(runningTasks.values());
-        
-        if (pending.isEmpty() && running.isEmpty() && !finished.isEmpty()) {
-            pollerFinish = true;
-        } else {
-            pollerFinish = false;
-        }
+
+        finished = scheduler.getScheduler().getScheduler().getFinishedTasks();
+        pending = scheduler.getScheduler().getScheduler().getPendingTasks();
+        running = scheduler.getScheduler().getScheduler().getRunningTasks();
+        failed = scheduler.getScheduler().getScheduler().getFailedTasks();
+
+        pollerFinish = pending.isEmpty() && running.isEmpty() && !finished.isEmpty();
     }
+
     /**
      *
      * @param task
@@ -181,24 +175,16 @@ public class SchedulerWatcher {
         this.scheduler = scheduler;
     }
 
-    public List<Protos.TaskInfo> getPendingTasks() {
-        return pendingTasks;
+    public List<DockerTask> getPendingTasks() {
+        return pending;
     }
 
-    public List<String> getRunningTasks() {
-        return null;
+    public List<DockerTask> getRunningTasks() {
+        return running;
     }
 
-    public List<String> getFinishedTasks() {
-        return null;
-    }
-
-    public List<Protos.TaskInfo> getFinished() {
+    public List<DockerTask> getFinishedTasks() {
         return finished;
-    }
-
-    public void setFinished(List<Protos.TaskInfo> finished) {
-        this.finished = finished;
     }
 
     public String getTaskResult() {
@@ -215,14 +201,6 @@ public class SchedulerWatcher {
 
     public void setSelectedTask(Protos.TaskInfo selectedTask) {
         this.selectedTask = selectedTask;
-    }
-
-    public List<Protos.TaskInfo> getRunning() {
-        return running;
-    }
-
-    public List<Protos.TaskInfo> getPending() {
-        return pending;
     }
 
     public boolean isMasterReachable() {

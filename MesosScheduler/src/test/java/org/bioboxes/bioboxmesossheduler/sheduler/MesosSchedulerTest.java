@@ -52,6 +52,7 @@ public class MesosSchedulerTest {
 
         MesosScheduler instance = new MesosScheduler();
 
+        // ############## Image,mem,cpu,   user   , mounts,mounts
         instance.addTask("test", 2, 2, "jsteiner1", null, null);
         instance.addTask("test", 1, 1, "jsteiner2", null, null);
         instance.addTask("test", 3, 2, "jsteiner3", null, null);
@@ -88,9 +89,9 @@ public class MesosSchedulerTest {
         System.out.println("Finished: " + instance.getFinishedTasks().size());
 
         /**
-         * Expected not empty running and empty pending list at the end to ensure a
-         * correct working scheduler.
-         * There can't be a status update to finished so far cause of a scheduler emulation only 
+         * Expected not empty running and empty pending list at the end to
+         * ensure a correct working scheduler. There can't be a status update to
+         * finished so far cause of a scheduler emulation only
          */
         boolean expected = true, result = instance.getPendingTasks().isEmpty()
                 && instance.getRunningTasks().size() == 4; // use-only with no mesos cluster

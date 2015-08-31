@@ -55,6 +55,8 @@ public class MesosScheduler implements Scheduler {
     private final List<DockerTask> finishedTasks = new ArrayList<>();
     private final List<DockerTask> failedTasks = new ArrayList<>();
 
+    private Protos.FrameworkID frameworkID;
+
     /**
      * C'tor with List of docker images.
      *
@@ -62,16 +64,18 @@ public class MesosScheduler implements Scheduler {
     public MesosScheduler() {
     }
 
-    public void addTask(String dockerImage, int maxCPU, int maxMEM, String principal, List<String> hostVolumes, List<String> containerVolumes, String... arg) {
+    public Protos.TaskInfo addTask(String dockerImage, int maxCPU, int maxMEM, String principal, List<String> hostVolumes, List<String> containerVolumes, String... arg) {
         DockerTask newDT = new DockerTask()
                 .createTask(taskIDGenerator.incrementAndGet(), dockerImage, maxCPU, maxMEM, principal, hostVolumes, containerVolumes, arg);
         pendingTasks.add(newDT);
         logger.info("PendingTasks Size {}", pendingTasks.size());
+        return newDT.getTaskContent();
     }
 
     @Override
     public void registered(SchedulerDriver schedulerDriver, Protos.FrameworkID frameworkID, Protos.MasterInfo masterInfo) {
         logger.info("registered() master={}:{}, framework={}", masterInfo.getIp(), masterInfo.getPort(), frameworkID);
+        this.frameworkID = frameworkID;
     }
 
     @Override
@@ -99,7 +103,7 @@ public class MesosScheduler implements Scheduler {
                 for (DockerTask d : pendingTasks) {
                     d.calculatePriority(offers.size(), offer); // calculate priority
                 }
-
+                
                 Collections.sort(pendingTasks, new DockerTaskComparator()); // sort by priority
 
                 double available_CPU = getResource("cpus", offer); // slave cpu
@@ -260,5 +264,9 @@ public class MesosScheduler implements Scheduler {
 
     public List<DockerTask> getFailedTasks() {
         return failedTasks;
+    }
+
+    public FrameworkID getFramework() {
+        return this.frameworkID;
     }
 }
