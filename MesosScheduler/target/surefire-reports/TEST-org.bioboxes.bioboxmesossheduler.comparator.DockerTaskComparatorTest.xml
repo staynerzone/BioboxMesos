@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
+<<<<<<< HEAD
 <testsuite tests="1" failures="0" name="org.bioboxes.bioboxmesossheduler.comparator.DockerTaskComparatorTest" time="0.002" errors="1" skipped="0">
+=======
+<testsuite failures="0" time="1.045" errors="0" skipped="0" tests="1" name="org.bioboxes.bioboxmesossheduler.comparator.DockerTaskComparatorTest">
+>>>>>>> 552a7f79de9b9afe750a65362c6572d08d1b3c07
   <properties>
     <property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
     <property name="sun.boot.library.path" value="/vol/java-8/jdk1.8.0_45/jre/lib/amd64"/>
@@ -31,8 +35,13 @@
     <property name="java.specification.name" value="Java Platform API Specification"/>
     <property name="java.class.version" value="52.0"/>
     <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
+<<<<<<< HEAD
     <property name="os.version" value="3.19.8-100.fc20.x86_64"/>
     <property name="user.home" value="/homes/jsteiner"/>
+=======
+    <property name="os.version" value="3.19.0-28-generic"/>
+    <property name="user.home" value="/home/jsteiner"/>
+>>>>>>> 552a7f79de9b9afe750a65362c6572d08d1b3c07
     <property name="user.timezone" value="Europe/Berlin"/>
     <property name="java.awt.printerjob" value="sun.print.PSPrinterJob"/>
     <property name="file.encoding" value="ISO-8859-1"/>
@@ -59,6 +68,7 @@
     <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
     <property name="sun.cpu.isalist" value=""/>
   </properties>
+<<<<<<< HEAD
   <testcase classname="org.bioboxes.bioboxmesossheduler.comparator.DockerTaskComparatorTest" name="testCompare" time="0">
     <error type="java.lang.NullPointerException">java.lang.NullPointerException
 	at java.io.File.&lt;init&gt;(File.java:277)
@@ -103,4 +113,7 @@
     <system-out>compare
 </system-out>
   </testcase>
+=======
+  <testcase time="0.961" classname="org.bioboxes.bioboxmesossheduler.comparator.DockerTaskComparatorTest" name="testCompare"/>
+>>>>>>> 552a7f79de9b9afe750a65362c6572d08d1b3c07
 </testsuite>

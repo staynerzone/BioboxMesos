@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
+<<<<<<< HEAD
 <testsuite tests="2" failures="0" name="org.bioboxes.bioboxmesossheduler.sheduler.MesosSchedulerTest" time="0.742" errors="1" skipped="0">
+=======
+<testsuite failures="0" time="0.01" errors="0" skipped="0" tests="2" name="org.bioboxes.bioboxmesossheduler.sheduler.MesosSchedulerTest">
+>>>>>>> 552a7f79de9b9afe750a65362c6572d08d1b3c07
   <properties>
     <property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
     <property name="sun.boot.library.path" value="/vol/java-8/jdk1.8.0_45/jre/lib/amd64"/>
@@ -31,8 +35,13 @@
     <property name="java.specification.name" value="Java Platform API Specification"/>
     <property name="java.class.version" value="52.0"/>
     <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
+<<<<<<< HEAD
     <property name="os.version" value="3.19.8-100.fc20.x86_64"/>
     <property name="user.home" value="/homes/jsteiner"/>
+=======
+    <property name="os.version" value="3.19.0-28-generic"/>
+    <property name="user.home" value="/home/jsteiner"/>
+>>>>>>> 552a7f79de9b9afe750a65362c6572d08d1b3c07
     <property name="user.timezone" value="Europe/Berlin"/>
     <property name="java.awt.printerjob" value="sun.print.PSPrinterJob"/>
     <property name="file.encoding" value="ISO-8859-1"/>
@@ -59,6 +68,7 @@
     <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
     <property name="sun.cpu.isalist" value=""/>
   </properties>
+<<<<<<< HEAD
   <testcase classname="org.bioboxes.bioboxmesossheduler.sheduler.MesosSchedulerTest" name="testStatusUpdate" time="0.003"/>
   <testcase classname="org.bioboxes.bioboxmesossheduler.sheduler.MesosSchedulerTest" name="testResourceOffers" time="0.645">
     <error message="no mesos in java.library.path" type="java.lang.UnsatisfiedLinkError">java.lang.UnsatisfiedLinkError: no mesos in java.library.path
@@ -112,4 +122,8 @@
     <system-err>Failed to load native Mesos library from /vol/java-8/jre/lib/amd64:/vol/java-8/jre/lib/i386:/opt/thinlinc/lib64:/opt/thinlinc/lib:/usr/java/packages/lib/amd64:/usr/lib64:/lib64:/lib:/usr/lib
 </system-err>
   </testcase>
+=======
+  <testcase time="0.009" classname="org.bioboxes.bioboxmesossheduler.sheduler.MesosSchedulerTest" name="testResourceOffers"/>
+  <testcase time="0" classname="org.bioboxes.bioboxmesossheduler.sheduler.MesosSchedulerTest" name="testStatusUpdate"/>
+>>>>>>> 552a7f79de9b9afe750a65362c6572d08d1b3c07
 </testsuite>
