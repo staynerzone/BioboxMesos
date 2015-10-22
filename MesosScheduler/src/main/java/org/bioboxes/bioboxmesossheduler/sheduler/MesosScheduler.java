@@ -71,6 +71,25 @@ public class MesosScheduler implements Scheduler {
         logger.info("PendingTasks Size {}", pendingTasks.size());
         return newDT.getTaskContent();
     }
+    /**
+     * Overloaded add Task with given taskid which gets incremented after each done task.
+     * @param id
+     * @param dockerImage
+     * @param maxCPU
+     * @param maxMEM
+     * @param principal
+     * @param hostVolumes
+     * @param containerVolumes
+     * @param arg
+     * @return 
+     */
+    public Protos.TaskInfo addTask(int id, String dockerImage, int maxCPU, int maxMEM, String principal, List<String> hostVolumes, List<String> containerVolumes, String... arg) {
+        DockerTask newDT = new DockerTask()
+                .createTask(id, dockerImage, maxCPU, maxMEM, principal, hostVolumes, containerVolumes, arg);
+        pendingTasks.add(newDT);
+        logger.info("PendingTasks Size {}", pendingTasks.size());
+        return newDT.getTaskContent();
+    }
 
     @Override
     public void registered(SchedulerDriver schedulerDriver, Protos.FrameworkID frameworkID, Protos.MasterInfo masterInfo) {
