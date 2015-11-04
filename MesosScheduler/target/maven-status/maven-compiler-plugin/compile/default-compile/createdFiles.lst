@@ -1,8 +1,8 @@
-org/bioboxes/bioboxmesossheduler/comparator/DockerTaskComparator.class
-org/bioboxes/bioboxmesossheduler/sheduler/MesosScheduler$1.class
-org/bioboxes/bioboxmesossheduler/sheduler/MesosScheduler.class
-org/bioboxes/bioboxmesossheduler/tasks/DockerTask.class
-org/bioboxes/bioboxmesossheduler/tools/LibMesosFinder.class
-org/bioboxes/bioboxmesossheduler/tasks/Task.class
 org/bioboxes/bioboxmesossheduler/DockerMesos$1.class
+org/bioboxes/bioboxmesossheduler/tasks/DockerTask.class
+org/bioboxes/bioboxmesossheduler/sheduler/MesosScheduler$1.class
+org/bioboxes/bioboxmesossheduler/tasks/Task.class
+org/bioboxes/bioboxmesossheduler/sheduler/MesosScheduler.class
+org/bioboxes/bioboxmesossheduler/comparator/DockerTaskComparator.class
 org/bioboxes/bioboxmesossheduler/DockerMesos.class
+org/bioboxes/bioboxmesossheduler/tools/LibMesosFinder.class

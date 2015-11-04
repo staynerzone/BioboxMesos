@@ -55,7 +55,7 @@ public class DockerMesos {
                 .setSecret(ByteString.copyFrom("123".getBytes()))
                 .build();
         
-        final DockerMesos ef = new DockerMesos("10.10.0.5:5050", null);
+        final DockerMesos ef = new DockerMesos("127.0.0.1:5050", null);
         Thread t = new Thread(new Runnable() {
             
             @Override
