@@ -71,11 +71,21 @@ public class DockerMesos {
     
     public DockerMesos(String masterIP, Credential mesosFrameworkCredentials) {
         /**
-         * Need to find libmesos.so.
+         * Need to find libmesos.so or libmesos.dylib.
          */
+        String OS = System.getProperty("os.name").toLowerCase();
+        
         Path startingDir = Paths.get("/usr/local/lib");
 //        Path startingDir = Paths.get("/home/jsteiner");
-        String pattern = "libmesos.so";
+        
+        String pattern;
+        
+        if(OS.indexOf("mac")>=0){
+            pattern = "libmesos.dylib";
+        } else {
+            pattern = "libmesos.so";
+        }
+        
         LibMesosFinder finder = new LibMesosFinder(pattern);
         try {
             Files.walkFileTree(startingDir, finder);
