@@ -55,7 +55,7 @@ public class DockerMesos {
                 .setSecret(ByteString.copyFrom("123".getBytes()))
                 .build();
         
-        final DockerMesos ef = new DockerMesos("10.10.0.5:5050", null);
+        final DockerMesos ef = new DockerMesos(args[0], null);
         Thread t = new Thread(new Runnable() {
             
             @Override
@@ -64,7 +64,7 @@ public class DockerMesos {
             }
         });
         t.start();
-        ef.getScheduler().addTask("hello-world", 1, 256, "jsteiner", null, null);
+        ef.getScheduler().addTask(args[1], 1, 256, "jsteiner", null, null);
 
 //        System.exit(0);
     }
