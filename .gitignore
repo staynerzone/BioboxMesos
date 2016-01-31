@@ -1,1 +1,3 @@
-/BioboxMesos/target/
+target
+.idea
+.iml
